@@ -14,7 +14,7 @@ const httpOptions = {
 })
 export class PropertyService {
   constructor() {}
-  private apiUrl = 'http://127.0.0.1:8000/api/properties/';
+  private apiUrl = 'http://127.0.0.1:8000';
   http = inject(HttpClient);
 
   private handleError(error: any) {
@@ -23,15 +23,17 @@ export class PropertyService {
   }
   getProperties() {
     return this.http
-      .get<Property[]>(this.apiUrl)
+      .get<Property[]>(`${this.apiUrl}/api/properties/`)
       .pipe(catchError(this.handleError));
   }
   getProperty(id: number) {
-    return this.http.get(`${this.apiUrl}/${id}`);
+    return this.http.get(`${this.apiUrl}/api/properties/${id}`);
   }
   getPropertiesWithParams(query: string) {
     let params = new HttpParams().set('q', query);
-    return this.http.get<Property[]>(this.apiUrl, { params });
+    return this.http.get<Property[]>(`${this.apiUrl}/api/properties/`, {
+      params,
+    });
   }
   createProperty(post: any) {
     return this.http.post(this.apiUrl, httpOptions);
