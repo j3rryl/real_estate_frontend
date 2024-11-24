@@ -1,0 +1,161 @@
+<section class="py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-1 lg:px-1">
+    <form class="w-1/2 mb-3" (ngSubmit)="onSearch($event)">
+      <label
+        for="default-search"
+        class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+        >Search</label
+      >
+      <div class="relative">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+        >
+          <svg
+            class="w-4 h-4 text-gray-500 dark:text-gray-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 20"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+            />
+          </svg>
+        </div>
+        <input
+          type="search"
+          id="default-search"
+          [(ngModel)]="searchQuery"
+          name="search"
+          class="block w-full p-4 ps-10 text-sm text-gray-900 border-primary-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          placeholder="Search Locations, Homes..."
+          required
+        />
+        <button
+          type="submit"
+          class="text-white absolute end-2.5 bottom-2.5 bg-primary-500 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-500 dark:hover:bg-primary-500 dark:focus:ring-primary-500"
+        >
+          Search
+        </button>
+      </div>
+    </form>
+    @if(isLoading){
+    <app-skeleton-loader />
+    } @else {
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      @for(property of properties; track property.id){
+
+      <a
+        href="javascript:;"
+        class="sm:mr-0 group cursor-pointer bg-white transition-all duration-500"
+      >
+        <div class="relative">
+          <img
+            src="{{ property.image }}"
+            alt="property image"
+            class="w-full aspect-square rounded-2xl object-cover"
+          />
+          <div
+            class="absolute bottom-4 left-4 bg-primary-600 bg-opacity-60 px-3 py-1 rounded-lg"
+          >
+            <span class="text-white text-sm">{{ property.location }}</span>
+          </div>
+          <div
+            class="absolute top-4 left-4 bg-primary-600 bg-opacity-60 px-3 py-1 rounded-lg"
+          >
+            <span class="text-white text-sm">{{ property.property_type }}</span>
+          </div>
+        </div>
+        <div class="mt-5">
+          <div class="flex items-center justify-between">
+            <h6
+              class="font-semibold text-xl leading-8 text-black transition-all duration-500 group-hover:text-primary-500"
+            >
+              {{ property.title }}
+            </h6>
+            <h6 class="font-semibold text-xl leading-8 text-primary-500">
+              {{
+                property.price.toLocaleString("en-US", {
+                  style: "currency"
+                })
+              }}
+            </h6>
+          </div>
+          <div class="mt-1 flex items-center justify-between">
+            <p
+              class="font-normal text-sm leading-6 text-gray-500 flex items-center justify-between"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-battery-charging mx-1"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M9.585 2.568a.5.5 0 0 1 .226.58L8.677 6.832h1.99a.5.5 0 0 1 .364.843l-5.334 5.667a.5.5 0 0 1-.842-.49L5.99 9.167H4a.5.5 0 0 1-.364-.843l5.333-5.667a.5.5 0 0 1 .616-.09z"
+                />
+                <path
+                  d="M2 4h4.332l-.94 1H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2.38l-.308 1H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2"
+                />
+                <path
+                  d="M2 6h2.45L2.908 7.639A1.5 1.5 0 0 0 3.313 10H2zm8.595-2-.308 1H12a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H9.276l-.942 1H12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"
+                />
+                <path
+                  d="M12 10h-1.783l1.542-1.639q.146-.156.241-.34zm0-3.354V6h-.646a1.5 1.5 0 0 1 .646.646M16 8a1.5 1.5 0 0 1-1.5 1.5v-3A1.5 1.5 0 0 1 16 8"
+                />
+              </svg>
+              Beds: {{ property.bedrooms }}
+            </p>
+            <p
+              class="font-normal text-sm leading-6 text-gray-500 flex items-center justify-between"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-water mx-1"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M.036 3.314a.5.5 0 0 1 .65-.278l1.757.703a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.757-.703a.5.5 0 1 1 .372.928l-1.758.703a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0L.314 3.964a.5.5 0 0 1-.278-.65m0 3a.5.5 0 0 1 .65-.278l1.757.703a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.757-.703a.5.5 0 1 1 .372.928l-1.758.703a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0L.314 6.964a.5.5 0 0 1-.278-.65m0 3a.5.5 0 0 1 .65-.278l1.757.703a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.757-.703a.5.5 0 1 1 .372.928l-1.758.703a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0L.314 9.964a.5.5 0 0 1-.278-.65m0 3a.5.5 0 0 1 .65-.278l1.757.703a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.757-.703a.5.5 0 1 1 .372.928l-1.758.703a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.757-.703a.5.5 0 0 1-.278-.65"
+                />
+              </svg>
+              Baths: {{ property.bathrooms }}
+            </p>
+            <p
+              class="font-normal text-sm leading-6 text-gray-500 flex items-center justify-between"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-textarea mx-1"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M1.5 2.5A1.5 1.5 0 0 1 3 1h10a1.5 1.5 0 0 1 1.5 1.5v3.563a2 2 0 0 1 0 3.874V13.5A1.5 1.5 0 0 1 13 15H3a1.5 1.5 0 0 1-1.5-1.5V9.937a2 2 0 0 1 0-3.874zm1 3.563a2 2 0 0 1 0 3.874V13.5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V9.937a2 2 0 0 1 0-3.874V2.5A.5.5 0 0 0 13 2H3a.5.5 0 0 0-.5.5zM2 7a1 1 0 1 0 0 2 1 1 0 0 0 0-2m12 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2"
+                />
+              </svg>
+              Sqft: {{ property.area }}
+            </p>
+          </div>
+        </div>
+        <p class="font-normal text-sm leading-6 text-gray-500 line-clamp-2">
+          {{ property.description }}
+        </p>
+      </a>
+      } @empty {
+      <p>No properties found</p>
+      }
+    </div>
+    }
+  </div>
+</section>
